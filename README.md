@@ -26,7 +26,7 @@ npm run build
 
 ## Overview
 
-### 的功能
+### 功能
 
 * 用户登录
 * 退出登录

@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+# 忽略历史更改的文件
 .history
 
 

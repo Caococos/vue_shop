@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-04-24 09:40:22
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-04 16:58:47
+ * @LastEditTime: 2021-05-05 09:57:51
 -->
 <template>
   <div class="login-container">
@@ -100,17 +100,15 @@ export default {
         }
         // const result = await usernameLogin(this.loginForm);
         usernameLogin(this.loginForm).then(res => {
-          if (res.meta.status !== 200) {
-            return this.$message.error('登录失败')
-          }
           /* 1.将登录成功之后的token，保存到客户端的sessionStorage中
             1.1 项目中出了登录之外的其他API接口，必须在登录之后才能访问
             1.2 token只应在当前网站打开期间生效，所以将token保存在sessionStorage中
           */
-          this.$message.success('登录成功')
-          window.sessionStorage.setItem('token', res.data.token)
-          this.$router.push('/home')
-          // console.log(res);
+          if (res) {
+            this.$message.success('登录成功')
+            window.sessionStorage.setItem('token', res.data.token)
+            this.$router.push('/home')
+          }
         })
       })
     }

@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-04-24 10:19:08
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-07 10:20:01
+ * @LastEditTime: 2021-05-10 15:54:36
  */
 import Vue from 'vue'
 // 导入弹框提示组件
@@ -12,7 +12,9 @@ import {
   Message, Button, Form, FormItem, Input,
   Aside, Main, Container, Header,
   Menu, Submenu, MenuItem,
-  Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox
+  Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox, Select, Option,
+  Tag,
+  Tree
 } from 'element-ui'
 
 Vue.use(Button)
@@ -37,6 +39,10 @@ Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
+Vue.use(Tag)
+Vue.use(Tree)
+Vue.use(Select)
+Vue.use(Option)
 
 // 全局挂载
 Vue.prototype.$message = Message

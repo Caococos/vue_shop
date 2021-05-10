@@ -3,6 +3,7 @@ html, body, #app {
   height: 100%;
   margin: 0;
   padding: 0;
+  min-width: 1366px;
 }
 
 // 覆盖默认样式，尽量都写在全局样式文件中
@@ -23,3 +24,5 @@ html, body, #app {
 .el-pagination {
   margin-top: 15px;
 }
+
+

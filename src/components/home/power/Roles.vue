@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-07 14:52:54
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-10 15:02:49
+ * @LastEditTime: 2021-05-13 10:40:07
 -->
 <template>
   <div class="roles">
@@ -250,7 +250,7 @@ import {
   deleteRolesRight,
   getSetRightTree,
   allotRights
-} from 'network/home'
+} from 'network/roles'
 export default {
   name: 'roles',
   data() {
@@ -363,6 +363,7 @@ export default {
         .then(() => {
           deleteRolesRight(role.id, rightId).then(res => {
             if (res) {
+              // 不用刷新页面更改数据
               role.children = res.data
               this.$message({
                 type: 'success',

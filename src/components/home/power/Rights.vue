@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-07 14:49:55
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-07 15:53:23
+ * @LastEditTime: 2021-05-11 11:00:19
 -->
 <template>
   <div class="rights">
@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-import { getRightsList } from 'network/home'
+import { getRightsList } from 'network/rights'
 export default {
   name: 'rights',
   data() {

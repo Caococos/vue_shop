@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-04-21 19:35:53
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-07 14:55:37
+ * @LastEditTime: 2021-05-11 11:06:58
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -14,6 +14,7 @@ const Welcome = () => import('components/home/welcome/Welcome')
 const User = () => import('components/home/user/User')
 const Rights = () => import('components/home/power/Rights')
 const Roles = () => import('components/home/power/Roles')
+const Categories = () => import('components/home/goods/Categories')
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,10 @@ const routes = [
       {
         path: 'roles',
         component: Roles
+      },
+      {
+        path: 'categories',
+        component: Categories
       }
     ]
   }

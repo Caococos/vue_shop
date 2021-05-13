@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-04-24 10:19:08
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-10 15:54:36
+ * @LastEditTime: 2021-05-12 18:05:42
  */
 import Vue from 'vue'
 // 导入弹框提示组件
@@ -14,7 +14,7 @@ import {
   Menu, Submenu, MenuItem,
   Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox, Select, Option,
   Tag,
-  Tree
+  Tree, Cascader
 } from 'element-ui'
 
 Vue.use(Button)
@@ -43,6 +43,7 @@ Vue.use(Tag)
 Vue.use(Tree)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Cascader)
 
 // 全局挂载
 Vue.prototype.$message = Message

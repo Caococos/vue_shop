@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-04 22:39:21
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-10 16:53:18
+ * @LastEditTime: 2021-05-11 11:01:25
 -->
 <template>
   <div class="user">
@@ -278,7 +278,7 @@ import {
   deleteUser,
   getRolesList,
   allotRole
-} from 'network/home'
+} from 'network/user'
 export default {
   name: 'user',
   data() {

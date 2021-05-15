@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-11 11:04:43
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-13 10:41:47
+ * @LastEditTime: 2021-05-15 11:53:14
 -->
 <template>
   <div class="categories">
@@ -19,161 +19,67 @@
     <el-card>
       <el-row>
         <el-col>
-          <el-button
-            type="primary"
-            @click="showAddCateDialog"
-          >添加分类</el-button>
+          <el-button type="primary" @click="showAddCateDialog">添加分类</el-button>
         </el-col>
       </el-row>
 
       <!-- 表格 -->
-      <tree-table
-        class="treeTable"
-        :data="cateList"
-        :columns="columns"
-        :selection-type="false"
-        :expand-type="false"
-        show-index
-        index-text=""
-        border
-        :show-row-hover="false"
-      >
+      <tree-table class="treeTable" :data="cateList" :columns="columns" :selection-type="false" :expand-type="false" show-index index-text="" border :show-row-hover="false">
         <!-- 是否有效 -->
         <template v-slot:isOk="slotProps">
-          <i
-            class="el-icon-success"
-            v-if="slotProps.row.cat_deleted === false"
-            style="color: rgb(46, 180, 46); font-size: 20px"
-          ></i>
-          <i
-            class="el-icon-error; font-size: 20px"
-            v-else
-            style="color: red"
-          ></i>
+          <i class="el-icon-success" v-if="slotProps.row.cat_deleted === false" style="color: rgb(46, 180, 46); font-size: 20px"></i>
+          <i class="el-icon-error; font-size: 20px" v-else style="color: red"></i>
         </template>
         <!-- 排序 -->
         <template v-slot:order="slotProps">
-          <el-tag
-            size="mini"
-            v-if="slotProps.row.cat_level === 0"
-          >一级</el-tag>
-          <el-tag
-            size="mini"
-            type="success"
-            v-else-if="slotProps.row.cat_level === 1"
-          >二级</el-tag>
-          <el-tag
-            size="mini"
-            type="warning"
-            v-else
-          >三级</el-tag>
+          <el-tag size="mini" v-if="slotProps.row.cat_level === 0">一级</el-tag>
+          <el-tag size="mini" type="success" v-else-if="slotProps.row.cat_level === 1">二级</el-tag>
+          <el-tag size="mini" type="warning" v-else>三级</el-tag>
         </template>
         <!-- 操作 -->
         <template v-slot:options="slotProps">
-          <el-button
-            size="mini"
-            type="primary"
-            class="el-icon-edit"
-            @click="showEditDialog(slotProps.row.cat_id)"
-          >编辑</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            class="el-icon-delete"
-            @click="removeCate(slotProps.row.cat_id)"
-          >删除</el-button>
+          <el-button size="mini" type="primary" class="el-icon-edit" @click="showEditDialog(slotProps.row.cat_id)">编辑</el-button>
+          <el-button size="mini" type="danger" class="el-icon-delete" @click="removeCate(slotProps.row.cat_id)">删除</el-button>
         </template>
       </tree-table>
 
       <!-- 分页 -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="queryInfo.pagenum"
-        :page-sizes="[3, 5, 10, 15]"
-        :page-size="queryInfo.pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      >
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum" :page-sizes="[3, 5, 10, 15]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </el-card>
 
     <!-- 添加分类的对话框 -->
-    <el-dialog
-      title="添加分类"
-      :visible.sync="addCateDialogVisible"
-      width="50%"
-      @close="addCateDialogClose"
-    >
+    <el-dialog title="添加分类" :visible.sync="addCateDialogVisible" width="50%" @close="addCateDialogClose">
       <!-- 表单 -->
-      <el-form
-        :model="addCateForm"
-        :rules="addCateFormRules"
-        ref="addCateFormRef"
-        label-width="100px"
-      >
-        <el-form-item
-          label="分类名称"
-          prop="cat_name"
-        >
-          <el-input
-            v-model="addCateForm.cat_name"
-            clearable
-          ></el-input>
+      <el-form :model="addCateForm" :rules="addCateFormRules" ref="addCateFormRef" label-width="100px">
+        <el-form-item label="分类名称" prop="cat_name">
+          <el-input v-model="addCateForm.cat_name" clearable></el-input>
         </el-form-item>
         <!-- options 用来指定数据源 -->
         <!-- props 用来指定配置对象 -->
         <el-form-item label="父级分类:">
-          <el-cascader
-            v-model="selectedKeys"
-            :options="cateParentList"
-            :props="cascaderProps"
-            @change="parentCateChanged"
-            clearable
-          ></el-cascader>
+          <el-cascader v-model="selectedKeys" :options="cateParentList" :props="cascaderProps" @change="parentCateChanged" clearable></el-cascader>
         </el-form-item>
       </el-form>
 
       <span slot="footer">
         <el-button @click="addCateDialogVisible = false">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="addCate"
-        >确 定</el-button>
+        <el-button type="primary" @click="addCate">确 定</el-button>
       </span>
     </el-dialog>
 
     <!-- 编辑对话框 -->
-    <el-dialog
-      title="添加分类"
-      :visible.sync="editCateDialogVisible"
-      width="50%"
-      @close="editCateDialogClose"
-    >
+    <el-dialog title="添加分类" :visible.sync="editCateDialogVisible" width="50%" @close="editCateDialogClose">
       <!-- 表单 -->
-      <el-form
-        :model="editForm"
-        :rules="addCateFormRules"
-        ref="editCateFormRef"
-        label-width="100px"
-      >
-        <el-form-item
-          label="分类名称"
-          prop="cat_name"
-        >
-          <el-input
-            v-model="editForm.cat_name"
-            clearable
-          ></el-input>
+      <el-form :model="editForm" :rules="addCateFormRules" ref="editCateFormRef" label-width="100px">
+        <el-form-item label="分类名称" prop="cat_name">
+          <el-input v-model="editForm.cat_name" clearable></el-input>
         </el-form-item>
       </el-form>
 
       <span slot="footer">
         <el-button @click="editCateDialogVisible = false">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="editCate"
-        >确 定</el-button>
+        <el-button type="primary" @click="editCate">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -290,30 +196,24 @@ export default {
         })
       })
     },
-    removeCate(id) {
-      this.$MessageBox
-        .confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-        .then(() => {
-          deleteCate(id).then(res => {
-            if (res) {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-              this.getCateList()
-            }
-          })
-        })
-        .catch(() => {
+    deleteCate(id) {
+      deleteCate(id).then(res => {
+        if (res) {
           this.$message({
-            type: 'info',
-            message: '已取消删除'
+            type: 'success',
+            message: '删除成功!'
           })
-        })
+          this.getCateList()
+        }
+      })
+    },
+    editCateInfo() {
+      editCateInfo(this.editForm).then(res => {
+        if (res) {
+          this.$message.success(res.meta.msg)
+          this.getCateList()
+        }
+      })
     },
 
     // 普通方法
@@ -363,16 +263,28 @@ export default {
       this.editCateDialogVisible = true
     },
     editCate() {
-      editCateInfo(this.editForm).then(res => {
-        if (res) {
-          this.$message.success(res.meta.msg)
-          this.getCateList()
-          this.editCateDialogVisible = false
-        }
-      })
+      this.editCateInfo()
+      this.editCateDialogVisible = false
     },
     editCateDialogClose() {
       this.$refs.editCateFormRef.resetFields()
+    },
+    removeCate(id) {
+      this.$MessageBox
+        .confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        .then(() => {
+          this.deleteCate(id)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     }
   }
 }

@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-04 13:36:32
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-09 10:06:38
+ * @LastEditTime: 2021-05-14 21:36:06
  */
 // 默认请求方式为get
 import axios from "axios";
@@ -34,6 +34,7 @@ export function request(config) {
     return res.data
   }, err => {
     // 服务器请求失败
+    console.log(err);
     Vue.prototype.$message.error('服务器好像开小差了呢')
     return;
   })

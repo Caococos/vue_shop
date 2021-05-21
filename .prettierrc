@@ -1,9 +1,4 @@
 {
-  // '这是一个修改格式化规则的文件'
-  // 'semi'
-  // 'singleQuote 为引用单引号',
-
-
-  "semi": false,
-  "singleQuote": true
+  "singleQuote": true,
+  "semi": true,
 }

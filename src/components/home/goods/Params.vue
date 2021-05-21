@@ -4,11 +4,11 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-13 21:16:21
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-15 21:59:52
+ * @LastEditTime: 2021-05-21 16:06:37
 -->
 <template>
   <div class="params">
-    <!-- 面包屑 -->
+    <!-- 面包屑区域 -->
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>商品管理</el-breadcrumb-item>

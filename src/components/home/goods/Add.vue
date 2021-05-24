@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-21 16:08:09
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-23 22:08:35
+ * @LastEditTime: 2021-05-24 08:56:34
 -->
 <template>
   <div class='add'>
@@ -90,6 +90,7 @@
 import _ from 'lodash';
 import { getCateList } from 'network/categories'
 import { getParamsList } from 'network/params'
+import { addGoodsRequest } from 'network/list';
 export default {
   name: 'add',
   data() {
@@ -105,7 +106,9 @@ export default {
         // 图片数组
         pics: [],
         // 商品的详情描述
-        goods_introduce: ''
+        goods_introduce: '',
+        // 要上传的属性值
+        attrs: []
       },
       addFormRules: {
         goods_name: [
@@ -158,7 +161,7 @@ export default {
         Authorization: window.sessionStorage.getItem('token')
       },
       previewPath: '',
-      previewVisible: false
+      previewVisible: false,
     }
   },
   created() {
@@ -185,6 +188,14 @@ export default {
           } else if (type === 'only') {
             this.onlyTableData = res.data
           }
+        }
+      })
+    },
+    addGoods(form) {
+      addGoodsRequest(form).then(res => {
+        if (res) {
+          this.$message.success(res.meta.msg)
+          this.$router.push('goods')
         }
       })
     },
@@ -243,7 +254,24 @@ export default {
         const form = _.cloneDeep(this.addForm)
         // 将数组转化为以','分割的字符串
         form.goods_cat = form.goods_cat.join(',')
-        console.log(form);
+        // 处理动态参数和静态属性
+        this.manyTableData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals.join(' ')
+          }
+          this.addForm.attrs.push(newInfo)
+        })
+        this.onlyTableData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals
+          }
+          this.addForm.attrs.push(newInfo)
+        })
+        form.attrs = this.addForm.attrs
+        // 发起添加商品的请求
+        this.addGoods(form)
       })
     }
   },

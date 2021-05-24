@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-21 12:13:23
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-21 16:10:43
+ * @LastEditTime: 2021-05-24 11:23:44
 -->
 <template>
   <div class='list'>
@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column width="130px" label="操作">
           <template v-slot="slotProps">
-            <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditVisible(slotProps.row)"></el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeById(slotProps.row.goods_id)"></el-button>
           </template>
         </el-table-column>
@@ -51,11 +51,36 @@
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="queryInfo.pagenum" :page-sizes="[5, 10, 15, 20]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </el-card>
+
+    <!-- 编辑dialog区域 -->
+    <el-dialog title="编辑商品" :visible.sync="editDialogVisible" @close="editListDialogClose" width="50%">
+
+      <!-- 表单区域 -->
+      <el-form :model="editForm" ref="editListFormRules" :rules="editFormRules" label-width="100px">
+        <el-form-item label="商品名称" prop="goods_name">
+          <el-input v-model="editForm.goods_name" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="价格" prop="goods_price">
+          <el-input v-model="editForm.goods_price" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="数量" prop="goods_number">
+          <el-input v-model="editForm.goods_number" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="重量" prop="goods_weight">
+          <el-input v-model="editForm.goods_weight" clearable></el-input>
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer">
+        <el-button @click="editDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editFormRequest">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getGoodsListRequest, deleteGodosRequest } from 'network/list';
+import { getGoodsListRequest, deleteGodosRequest, editGoodsRequest } from 'network/list';
 export default {
   name: 'list',
   data() {
@@ -66,7 +91,45 @@ export default {
         pagesize: 10
       },
       goodsList: [],
-      total: 0
+      total: 0,
+      editDialogVisible: false,
+      editForm: {
+        goods_name: '',
+        goods_number: 0,
+        goods_price: 0,
+        goods_weight: 0
+      },
+      editGoodsId: 0,
+      editFormRules: {
+        goods_name: [
+          {
+            required: true,
+            message: '请输入商品名称',
+            trigger: 'blur',
+          },
+        ],
+        goods_price: [
+          {
+            required: true,
+            message: '请输入商品价格',
+            trigger: 'blur',
+          },
+        ],
+        goods_weight: [
+          {
+            required: true,
+            message: '请输入商品重量',
+            trigger: 'blur',
+          },
+        ],
+        goods_number: [
+          {
+            required: true,
+            message: '请输入商品数量',
+            trigger: 'blur',
+          },
+        ]
+      }
     }
   },
   created() {
@@ -87,6 +150,13 @@ export default {
         if (res) {
           this.$message.success(res.meta.msg)
           this.getGoodsList()
+        }
+      })
+    },
+    editGoods(id) {
+      editGoodsRequest(id, this.editForm).then(res => {
+        if (res) {
+          this.$message.success(res.meta.msg)
         }
       })
     },
@@ -116,6 +186,26 @@ export default {
             message: '已取消删除'
           })
         })
+    },
+    showEditVisible(row) {
+      console.log(row);
+      this.editDialogVisible = true
+      this.editGoodsId = row.goods_id
+      this.editForm.goods_name = row.goods_name
+      this.editForm.goods_number = row.goods_number
+      this.editForm.goods_price = row.goods_price
+      this.editForm.goods_weight = row.goods_weight
+    },
+    editListDialogClose() {
+      this.$refs.editListFormRules.resetFields()
+    },
+    editFormRequest() {
+      this.$refs.editListFormRules.validate(valid => {
+        if (!valid) {
+          return this.$message.error('请填写必要的表单项！')
+        }
+        this.editGoods(this.editGoodsId)
+      })
     },
     goAddPage() {
       this.$router.push('add')

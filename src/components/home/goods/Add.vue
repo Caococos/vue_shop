@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-21 16:08:09
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-24 08:56:34
+ * @LastEditTime: 2021-05-24 10:38:20
 -->
 <template>
   <div class='add'>
@@ -91,6 +91,7 @@ import _ from 'lodash';
 import { getCateList } from 'network/categories'
 import { getParamsList } from 'network/params'
 import { addGoodsRequest } from 'network/list';
+import { uploadImgMixin } from 'common/mixins';
 export default {
   name: 'add',
   data() {
@@ -156,10 +157,6 @@ export default {
       },
       manyTableData: [],
       onlyTableData: [],
-      uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
-      headerObj: {
-        Authorization: window.sessionStorage.getItem('token')
-      },
       previewPath: '',
       previewVisible: false,
     }
@@ -167,6 +164,7 @@ export default {
   created() {
     this.getCateList()
   },
+  mixins: [uploadImgMixin],
   methods: {
     // 网络请求方法
     getCateList() {

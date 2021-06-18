@@ -1,8 +1,7 @@
 .DS_Store
 node_modules
 /dist
-# 忽略历史更改的文件
-.history
+
 
 
 # local env files
@@ -14,6 +13,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+cheese.log*
 
 # Editor directories and files
 .idea

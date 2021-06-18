@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "run api": "node ./app.js"
+    "api": "node app.js"
   },
   "dependencies": {
     "bluebird": "^3.5.1",

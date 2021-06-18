@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-04-24 10:19:08
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-23 17:21:34
+ * @LastEditTime: 2021-05-27 17:50:26
  */
 import Vue from 'vue'
 // 导入弹框提示组件
@@ -16,7 +16,8 @@ import {
   Tag,
   Tree, Cascader,
   Alert, Tabs, TabPane,
-  Step, Steps, CheckboxGroup, Checkbox, Upload
+  Step, Steps, CheckboxGroup, Checkbox, Upload,
+  Timeline
 } from 'element-ui'
 
 Vue.use(Button)
@@ -54,6 +55,7 @@ Vue.use(Steps)
 Vue.use(CheckboxGroup)
 Vue.use(Checkbox)
 Vue.use(Upload)
+Vue.use(Timeline)
 
 // 全局挂载
 Vue.prototype.$message = Message

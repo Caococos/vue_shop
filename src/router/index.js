@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-04-21 19:35:53
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-21 16:11:24
+ * @LastEditTime: 2021-05-24 14:40:22
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -18,6 +18,7 @@ const Categories = () => import('components/home/goods/Categories')
 const Params = () => import('components/home/goods/Params')
 const List = () => import('components/home/goods/List')
 const Add = () => import('components/home/goods/Add')
+const Oders = () => import('components/home/order/Order')
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,10 @@ const routes = [
       {
         path: 'add',
         component: Add
+      },
+      {
+        path: 'orders',
+        component: Oders
       }
     ]
   }

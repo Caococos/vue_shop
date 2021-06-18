@@ -4,7 +4,7 @@
  * @Author: Zhihaot1
  * @Date: 2021-04-21 19:35:53
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-24 14:40:22
+ * @LastEditTime: 2021-06-18 10:13:16
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -19,6 +19,7 @@ const Params = () => import('components/home/goods/Params')
 const List = () => import('components/home/goods/List')
 const Add = () => import('components/home/goods/Add')
 const Oders = () => import('components/home/order/Order')
+const Report = () => import('components/home/report/Report')
 
 Vue.use(VueRouter)
 
@@ -74,6 +75,10 @@ const routes = [
       {
         path: 'orders',
         component: Oders
+      },
+      {
+        path: 'reports',
+        component: Report
       }
     ]
   }

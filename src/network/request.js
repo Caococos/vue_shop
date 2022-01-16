@@ -4,11 +4,17 @@
  * @Author: Zhihaot1
  * @Date: 2021-05-04 13:36:32
  * @LastEditors: Zhihaot1
- * @LastEditTime: 2021-05-14 21:36:06
+ * @LastEditTime: 2021-06-18 16:32:32
  */
 // 默认请求方式为get
 import axios from "axios";
 import Vue from 'vue'
+
+// 导入NProgress包对应的JS和CSS
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css'
+// 这个进度条显示还可以考虑写在beforeEach导航守卫中
+
 export function request(config) {
   //创建实例
   const instance = axios.create({
@@ -18,6 +24,8 @@ export function request(config) {
   })
   //拦截请求之后要把请求返回去
   instance.interceptors.request.use(config => {
+    // 显示进度条
+    NProgress.start()
     // 为请求头对象添加token验证的Authorization字段
     config.headers.Authorization = window.sessionStorage.getItem('token')
     return config
@@ -31,6 +39,7 @@ export function request(config) {
       Vue.prototype.$message.error(res.data.meta.msg)
       return;
     }
+    NProgress.done()
     return res.data
   }, err => {
     // 服务器请求失败

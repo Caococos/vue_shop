@@ -146,7 +146,7 @@ export default {
     },
     getProgressInfo() {
       // 供测试的订单号
-      queryProgressInfoRequest(804909574412544580).then(res => {
+      queryProgressInfoRequest(1106975712662).then(res => {
         if (res) {
           this.progressInfo = res.data
           console.log(this.progressInfo);
@@ -176,7 +176,7 @@ export default {
     showProgressBox() {
       this.progressVisible = true
       // 物流接口崩掉了
-      // this.getProgressInfo()
+      this.getProgressInfo()
     }
   }
 }

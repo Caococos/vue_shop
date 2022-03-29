@@ -17,7 +17,7 @@ import {
   Tree, Cascader,
   Alert, Tabs, TabPane,
   Step, Steps, CheckboxGroup, Checkbox, Upload,
-  Timeline
+  Timeline, TimelineItem
 } from 'element-ui'
 
 Vue.use(Button)
@@ -56,6 +56,7 @@ Vue.use(CheckboxGroup)
 Vue.use(Checkbox)
 Vue.use(Upload)
 Vue.use(Timeline)
+Vue.use(TimelineItem)
 
 // 全局挂载
 Vue.prototype.$message = Message

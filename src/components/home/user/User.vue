@@ -135,9 +135,9 @@ import {
   queryUserInfo,
   editUserInfo,
   deleteUser,
-  getRolesList,
   allotRole
 } from 'network/user'
+import { getRolesList } from 'network/roles'
 export default {
   name: 'user',
   data() {
@@ -333,6 +333,7 @@ export default {
     },
     // 展示分配角色的对话框
     setRole(userInfo) {
+      console.log('userInfo ===>', userInfo);
       this.userInfo = userInfo
       // 获取所有角色列表
       this.getRolesList()

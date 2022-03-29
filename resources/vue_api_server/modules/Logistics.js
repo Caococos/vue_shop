@@ -5,8 +5,9 @@ const request = require('request')
 function autoComNumber(orderno) {
   // http://www.kuaidi100.com/autonumber/autoComNum?resultv2=1&text=804909574412544580
   const url = `http://www.kuaidi100.com/autonumber/autoComNum?resultv2=1&text=${orderno}`
-  return new Promise(function(resolve, reject) {
-    request(url, (err, response, body) => {
+  const options = { url: url, headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36' } }
+  return new Promise(function (resolve, reject) {
+    request(options, (err, response, body) => {
       if (err) return reject({ status: 500, msg: err.message })
       // resolve(body)
       // console.log(body.num)
@@ -31,9 +32,8 @@ async function getLogisticsInfo(req, res) {
 
   //   // http://www.kuaidi100.com/query?type=yuantong&postid=804909574412544580&temp=0.5873204070187814&phone=
   // https://www.kuaidi100.com/query?type=yuantong&postid=804909574412544580&temp=0.6319710544680956&phone=
-  const dataUrl = `http://www.kuaidi100.com/query?type=${result.comCode}&postid=${
-    req.params.orderno
-  }&temp=0.6319710544680956&phone=`
+  const dataUrl = `http://www.kuaidi100.com/query?type=${result.comCode}&postid=${req.params.orderno
+    }&temp=0.6319710544680956&phone=`
   console.log(dataUrl)
   request(dataUrl, (err, response, body) => {
     if (err) {

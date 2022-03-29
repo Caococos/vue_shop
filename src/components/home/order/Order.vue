@@ -150,7 +150,7 @@ export default {
     },
     getProgressInfo() {
       // 供测试的订单号
-      queryProgressInfoRequest(804909574412544580).then(res => {
+      queryProgressInfoRequest(2135235231).then(res => {
         if (res) {
           this.progressInfo = res.data
           console.log(this.progressInfo);

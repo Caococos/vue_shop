@@ -33,10 +33,15 @@
         <el-table-column type="index"></el-table-column>
         <el-table-column label="商品名称" prop="goods_name"></el-table-column>
         <el-table-column width="95px" label="商品价格(元)" prop="goods_price"></el-table-column>
-        <el-table-column width="70px" label="商品重量" prop="goods_weight"></el-table-column>
+        <el-table-column width="100px" label="商品重量(kg)" prop="goods_weight"></el-table-column>
         <el-table-column width="140px" label="创建时间" prop="add_time">
           <template v-slot="slotProps">
-            {{slotProps.row.add_time | dateFormat}}
+            {{slotProps.row.add_time | dateFormat('yyyy-MM-dd hh:mm:ss')}}
+          </template>
+        </el-table-column>
+        <el-table-column width="140px" label="最近修改时间" prop="upd_time">
+          <template v-slot="slotProps">
+            {{slotProps.row.upd_time | dateFormat('yyyy-MM-dd hh:mm:ss')}}
           </template>
         </el-table-column>
         <el-table-column width="130px" label="操作">
@@ -69,6 +74,9 @@
         <el-form-item label="重量" prop="goods_weight">
           <el-input v-model="editForm.goods_weight" clearable></el-input>
         </el-form-item>
+        <el-form-item label="商品分类" prop="goods_cat">
+          <el-cascader :options="cateList" :props="cateProps" v-model="editForm.goods_cat" @change="handleChanged"></el-cascader>
+        </el-form-item>
       </el-form>
 
       <span slot="footer">
@@ -81,6 +89,8 @@
 
 <script>
 import { getGoodsListRequest, deleteGodosRequest, editGoodsRequest } from 'network/list';
+import { getCateList } from 'network/categories'
+import _ from 'lodash';
 export default {
   name: 'list',
   data() {
@@ -97,7 +107,9 @@ export default {
         goods_name: '',
         goods_number: 0,
         goods_price: 0,
-        goods_weight: 0
+        goods_weight: 0,
+        goods_cat: [],
+        add_time: 1
       },
       editGoodsId: 0,
       editFormRules: {
@@ -129,11 +141,20 @@ export default {
             trigger: 'blur',
           },
         ]
-      }
+      },
+      cateList: [], //分类数组
+
+      cateProps: {
+        expandTrigger: 'hover',
+        label: 'cat_name',
+        value: 'cat_id',
+        children: 'children'
+      },
     }
   },
   created() {
-    this.getGoodsList()
+    this.getGoodsList()  //请求商品列表
+    this.getCateList()  //请求分类列表
   },
   methods: {
     // 网络请求方法
@@ -154,9 +175,21 @@ export default {
       })
     },
     editGoods(id) {
-      editGoodsRequest(id, this.editForm).then(res => {
+      const form = _.cloneDeep(this.editForm)
+      form.goods_cat = form.goods_cat.join(',')
+      console.log('form ===>', form);
+      editGoodsRequest(id, form).then(res => {
         if (res) {
+          this.getGoodsList()
+          this.editDialogVisible = false
           this.$message.success(res.meta.msg)
+        }
+      })
+    },
+    getCateList() {
+      getCateList().then((res) => {
+        if (res) {
+          this.cateList = res.data
         }
       })
     },
@@ -195,6 +228,8 @@ export default {
       this.editForm.goods_number = row.goods_number
       this.editForm.goods_price = row.goods_price
       this.editForm.goods_weight = row.goods_weight
+      this.editForm.add_time = row.add_time
+      this.editForm.goods_cat = [row.cat_one_id, row.cat_two_id, row.cat_three_id]
     },
     editListDialogClose() {
       this.$refs.editListFormRules.resetFields()
@@ -209,6 +244,11 @@ export default {
     },
     goAddPage() {
       this.$router.push('add')
+    },
+    handleChanged() {
+      if (this.editForm.goods_cat.length !== 3) {
+        this.editForm.goods_cat = []
+      }
     }
   }
 }

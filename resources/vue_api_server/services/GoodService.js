@@ -121,7 +121,7 @@ function generateGoodInfo(params) {
     }
 
 
-    info["add_time"] = Date.parse(new Date()) / 1000;
+    info["add_time"] = params.add_time;
     info["upd_time"] = Date.parse(new Date()) / 1000;
     info["is_del"] = '0';
 
@@ -134,7 +134,6 @@ function generateGoodInfo(params) {
     }
 
     info["is_promote"] = info["is_promote"] ? info["is_promote"] : false;
-
     resolve(info);
   });
 }
@@ -149,6 +148,7 @@ function checkGoodName(info) {
   return new Promise(function (resolve, reject) {
 
     dao.findOne("GoodModel", { "goods_name": info.goods_name, "is_del": "0" }, function (err, good) {
+      console.log('err ===>', err);
       if (err) return reject(err);
       if (!good) return resolve(info);
       if (good.goods_id == info.goods_id) return resolve(info);
@@ -527,7 +527,8 @@ module.exports.deleteGood = function (id, cb) {
  * @param  {[type]}   params     查询条件
  * @param  {Function} cb         回调函数
  */
-module.exports.getAllGoods = function (params, cb) {
+module.exports.getAllGoods = getAllGoods
+function getAllGoods(params, cb) {
   var conditions = {};
   if (!params.pagenum || params.pagenum <= 0) return cb("pagenum 参数错误");
   if (!params.pagesize || params.pagesize <= 0) return cb("pagesize 参数错误");
@@ -553,17 +554,18 @@ module.exports.getAllGoods = function (params, cb) {
     // 构建条件
     conditions["offset"] = offset;
     conditions["limit"] = limit;
-    conditions["only"] = ["goods_id", "goods_name", "goods_price", "goods_weight", "goods_state", "add_time", "goods_number", "upd_time", "hot_mumber", "is_promote"];
+    conditions["only"] = ["goods_id", 'cat_id', 'cat_one_id', 'cat_two_id', 'cat_three_id', "goods_name", "goods_price", "goods_weight", "goods_state", "add_time", "goods_number", "upd_time", "hot_mumber", "is_promote"];
     conditions["order"] = "-add_time";
 
 
     dao.list("GoodModel", conditions, function (err, goods) {
+      // console.log('goods ===>', goods);
       if (err) return cb(err);
       var resultDta = {};
       resultDta["total"] = count;
       resultDta["pagenum"] = pagenum;
       resultDta["goods"] = _.map(goods, function (good) {
-        return _.omit(good, "goods_introduce", "is_del",
+        return _.omit(good, "goods_introduce", "is_del",  //排除相应属性
           "goods_big_logo", "goods_small_logo", "delete_time");
       });
       cb(err, resultDta);
@@ -598,7 +600,7 @@ module.exports.updateGood = function (id, params, cb) {
       cb(null, info.good);
     })
     .catch(function (err) {
-      cb(err);
+      cb('商品更新数据err', err);
     });
 }
 

@@ -32,13 +32,14 @@ Vue.component('tree-table', TreeTable)
 Vue.use(VueQuillEditor)
 
 // 创建全局过滤器
-Vue.filter('dateFormat', function (value, fmt) {
+Vue.filter('dateFormat', function (value) {
   //1.获取年份
   //y
   //y+ -> 1个或者多个y
   //y* -> 0个或者多个y
   //y? -> 0个或者1个y
   //上面的是正则表达式的规则
+  let fmt = 'yyyy-MM-dd-hh-mm-ss'
   let date = new Date(value * 1000);
   if (/(y+)/.test(fmt)) {
     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));

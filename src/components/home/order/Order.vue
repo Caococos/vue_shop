@@ -82,7 +82,11 @@
 
     <!-- 展示物流进度的对话框 -->
     <el-dialog title="物流进度" :visible.sync="progressVisible" width="50%">
-      <span>该功能还未开发呢！</span>
+      <el-timeline>
+        <el-timeline-item v-for="(activity, index) in progressInfo" :key="index" :timestamp="activity.time">
+          {{activity.context}}
+        </el-timeline-item>
+      </el-timeline>
     </el-dialog>
   </div>
 </template>
@@ -146,7 +150,7 @@ export default {
     },
     getProgressInfo() {
       // 供测试的订单号
-      queryProgressInfoRequest(1106975712662).then(res => {
+      queryProgressInfoRequest(2135235231).then(res => {
         if (res) {
           this.progressInfo = res.data
           console.log(this.progressInfo);
@@ -175,7 +179,6 @@ export default {
     },
     showProgressBox() {
       this.progressVisible = true
-      // 物流接口崩掉了
       this.getProgressInfo()
     }
   }

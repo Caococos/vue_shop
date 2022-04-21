@@ -17,7 +17,8 @@ import {
   Tree, Cascader,
   Alert, Tabs, TabPane,
   Step, Steps, CheckboxGroup, Checkbox, Upload,
-  Timeline, TimelineItem
+  Timeline,
+  TimelineItem
 } from 'element-ui'
 
 Vue.use(Button)

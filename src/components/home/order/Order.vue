@@ -23,9 +23,9 @@
             <el-button slot="append" icon="el-icon-search" @click="getOdersList"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="4">
+        <!-- <el-col :span="4">
           <el-button type="primary">添加商品</el-button>
-        </el-col>
+        </el-col> -->
       </el-row>
 
       <!-- 订单列表数据表格 -->
